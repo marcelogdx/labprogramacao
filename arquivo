@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <conio.h>
+#include <locale.h>
+
+int main(){
+	
+	setlocale(LC_ALL, "");
+	system("color 4F");
+	FILE *arq;
+  	int i, x;
+ 	int result;
+  	char Linha[100];
+  
+  	//Criação do Arquivo
+  	arq = fopen("Arquivo.txt", "wt"); //"wt": abertura para gravação, arquivo texto
+  	
+ 	if(arq == NULL){ // Se nào conseguiu criar
+    	printf("Problemas na criação do arquivo\n");
+     	return(0);
+  	}else{
+	  	//Escrita no Arquivo	
+  		for (i=0; i<=10; i++){
+		// A funcao 'fprintf' devolve o número de bytes gravados ou EOF se houve erro na gravação
+    		result = fprintf(arq,"7 x %d = %d \n",i, 7*i);  
+			//result = fputs("7 x %d = %d \n", arq);					  
+     		if (result == EOF){
+				printf("Erro na Gravacao\n");
+			}
+		}
+		fclose(arq);  
+	}
+	
+	//Leitura de um arquivo
+	arq = fopen("Arquivo.txt", "rt"); 	//"rt": abertura para leitura, arquivo texto
+	if(arq == NULL){ // Se nào conseguiu abrir
+    	printf("Problemas na criação do arquivo\n");
+     	return(0);
+  	}else{
+		i = 0;
+		while(!feof(arq)){
+			//Lê uma linha (inclusive com o '\n')
+      		result = fgets(Linha, 100, arq);  // o 'fgets' lê até 99 caracteres ou até encontrar um \n
+      		//result = fscanf(arq, "%s", Linha); 
+      		if(result){ // Se foi possível ler
+	  			printf("Linha %d: %s \n",i,Linha); //Imprime o conteúdo do arquivo em tela
+	  		}
+      		i++;
+  		}
+  		fclose(arq);  	
+	}
+	
+  	return(0);
+}
