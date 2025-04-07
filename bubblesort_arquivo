@@ -1,0 +1,139 @@
+#include <stdio.h>
+#include <conio.h>
+#include <locale.h>
+#include <string.h>
+
+/* LEGENDA DE CORES
+	0 - Preto
+	1 - Azul
+	2 - Verde
+	3 - Verde-água
+	4 - Vermelho
+	5 - Roxo
+	6 - Amarelo
+	7 - Branco
+	8 - Cinza
+	9 - Azul claro
+	A - Verde Claro
+	B - Verde-água claro
+	C - Vermelho Claro
+	D - Lilás
+	E - Amarelo Claro
+	F - Branco Brilhante
+*/
+
+void imprimevetor(int vetor[], int n){
+	
+	int i;
+	printf("["); 					
+	for(i=0; i < n; i++){
+		if(i != n-1){					
+			printf("%d, ", vetor[i]); 	
+		}else{
+			printf("%d", vetor[i]); 	
+		}
+	}
+	printf("]"); 						
+}
+
+void bubblesort (int vetor[], int n) {
+    
+	int i, j, aux, cont = 1;
+    for (i = 0; i < n; i++) {				//percorre o vetor no tamanho do vetor (n vezes).
+        for (j = 0; j < n - 1; j++) {		//percorre o vetor n-1 vezes para garantir que irá ser verificado todos os pares entre si.
+        	printf("***** PASSO %d: i = %d e j = %d *****\n", cont, i, j);
+            if (vetor[j] > vetor[j + 1]) {	//verifica se o conteúdo do vetor na posição atual (i) é maior que o conteúdo do vetor na próxima posição (i+1).
+                aux          = vetor[j];	//quando há troca, armazena o conteúdo do vetor da posição atual numa variável auxilhar.
+                vetor[j]     = vetor[j + 1];//coloca o conteúdo do vetor da próxima posição (i+1) na posição atual (i), ou seja, troca.
+                vetor[j + 1] = aux;			//atribui o valor do vetor na posição atual, que tá em aux, na próxima posição (i+1+ do vetor. 
+                printf("TROCA!! (%d > %d) \n", vetor[j], vetor[j + 1]);
+            }else{
+            	printf("(%d > %d) \n", vetor[j], vetor[j + 1]);
+			}
+			cont++;							//apenas controla o número de iterações ou passos (i x (j-1)) no total.
+        }
+    }
+}
+
+int main(){
+	
+	setlocale(LC_ALL, "");
+	system("color 2F");
+	FILE *arq;
+  	int tam, i, x;
+ 	int result;
+  	char Linha[100];
+  	int *vet;
+  	
+	arq = fopen("Arquivo_in.txt", "rt");
+	if(arq == NULL){ 
+    	printf("Problemas na criação do arquivo\n");
+     	return(0);
+  	}else{
+		tam = 0;
+		while(!feof(arq)){
+      		result = fgets(Linha, 100, arq);  
+      		if(result){ 
+	  			tam++; 
+	  		}
+  		}
+  	}
+  	fclose(arq);
+  	
+  	vet = (int*)malloc(tam*sizeof(int));
+  	i = 0;
+  	arq = fopen("Arquivo_in.txt", "rt");
+  	if(arq == NULL){
+    	printf("Problemas na criação do arquivo\n");
+     	return(0);
+  	}else{
+  		while(!feof(arq)){
+      		result = fgets(Linha, 100, arq);  
+      		if(result){
+				vet[i] = atoi(Linha);
+				i++;
+	  		}
+		}
+	}
+	fclose(arq);
+		
+	//Ordenando os números..
+	printf("Números lidos do arquivo... \n");
+	imprimevetor(vet, tam);
+	printf("\n\nOrdenando números... Aguarde! \n"); 
+	printf("..\n");
+	printf("...\n");
+	printf(".....\n");
+	bubblesort(vet, tam);
+	printf(".....\n");
+	printf("...\n");
+	printf("..\n");
+		
+	//Criação do Arquivo
+	printf("\nCriando novo arquivo... \n"); 
+	printf("..\n");
+	printf("...\n");
+	printf(".....\n");	
+  	arq = fopen("Arquivo_out.txt", "wt");
+ 	if(arq == NULL){
+    	printf("Problemas na criação do arquivo\n");
+     	return(0);
+  	}else{
+	  	//Escrita no Arquivo	
+  		for (i=0; i<tam; i++){
+			if(i != tam-1){
+				result = fprintf(arq,"%d, ",vet[i]);
+			}else{
+				result = fprintf(arq,"%d.",vet[i]);
+			}
+    		  					  
+     		if (result == EOF){
+				printf("Erro na Gravacao\n");
+			}
+		}
+		printf("\nGravação concluida! \n");
+		fclose(arq);  
+	}
+	
+  	return(0);
+}
