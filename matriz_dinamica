@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void imprimir_matriz(int **matriz, int m, int n){
+	
+	int i,j; //variável de função ou variável local..
+	for(i=0; i<m; i++){
+		for(j=0; j<n; j++){
+			printf("matriz[%d][%d] = %d\n", i, j, matriz[i][j]);
+		}
+	} 	
+}
+
+int main(){
+	
+	int **matriz;
+	int i, j;
+	int lin, col;
+	
+	printf("Informe o numero de linhas da matriz: \n");
+	scanf("%d",&lin);
+	printf("Informe o numero de colunas da matriz: \n");
+	scanf("%d",&col);
+	
+	//Alocando dinamicamente a matriz
+	matriz = (int **)malloc(lin * sizeof(int));
+	for(j=0;j<col;j++){
+		matriz[j] = (int *)malloc(col * sizeof(int));
+	}
+	
+	//Alimentando a matriz
+	for(i=0; i<lin; i++){ //percorre as linhas
+		for(j=0; j<col; j++){ //percorre as coluna
+			matriz[i][j] = rand() % 10;
+		}
+	}
+	
+	printf("Imprimindo a matriz...\n");
+	imprimir_matriz(matriz,lin,col);
+}
